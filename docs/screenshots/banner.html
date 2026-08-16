@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1280px; height: 400px; overflow: hidden; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+  .wrap { width: 100%; height: 100%; background: linear-gradient(120deg, #0d1b3e 0%, #16306b 55%, #2f81f7 135%); position: relative; display: flex; align-items: center; padding: 0 84px; }
+  .ring { position: absolute; border: 2px solid rgba(255, 255, 255, .09); border-radius: 50%; }
+  .ring1 { width: 430px; height: 430px; right: -100px; top: -130px; }
+  .ring2 { width: 270px; height: 270px; right: 170px; bottom: -130px; }
+  .ring3 { width: 120px; height: 120px; right: 430px; top: -44px; }
+  .logo { width: 116px; height: 116px; border-radius: 28px; background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo svg { width: 70px; height: 70px; }
+  .text { margin-left: 36px; }
+  h1 { color: #fff; font-size: 58px; font-weight: 700; letter-spacing: .5px; }
+  .tagline { color: #cfe0ff; font-size: 23px; margin-top: 12px; letter-spacing: .3px; }
+  .badges { position: absolute; right: 84px; bottom: 36px; display: flex; gap: 14px; }
+  .badge { background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.22); color: #dfe9ff; font-size: 16px; padding: 7px 16px; border-radius: 999px; letter-spacing: .4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="ring ring1"></div>
+  <div class="ring ring2"></div>
+  <div class="ring ring3"></div>
+  <div class="logo">
+    <svg viewBox="0 0 512 512"><rect x="0" y="0" width="512" height="512" rx="115" fill="#2f81f7"/><circle cx="256" cy="256" r="150" fill="none" stroke="#ffffff" stroke-width="30"/><path d="M188 264 L238 314 L328 208" fill="none" stroke="#ffffff" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="text">
+    <h1>InkNote</h1>
+    <div class="tagline">Your notes. Your passwords. Yours alone.</div>
+  </div>
+  <div class="badges">
+    <span class="badge">&#128274; AES-256-GCM</span>
+    <span class="badge">&#128190; 100% local</span>
+    <span class="badge">&#128037; Open source</span>
+  </div>
+</div>
+</body>
+</html>
