@@ -20,23 +20,24 @@
 
 ## What if you never had to remember another password?
 
-Count your accounts for a second: email, shopping, banking, social, GitHub... Most people have dozens. And most people can genuinely remember only a few strong passwords.
+The AI era made a hard problem harder. You signed up for ChatGPT, Claude, Midjourney — every AI tool wants a new account, and every account wants a new password. Now add the old ones: email, banking, shopping, GitHub...
 
-So everyone compromises — and every compromise has a price:
+Most people genuinely remember only a few strong passwords. Everyone compromises — and every compromise has a price:
 
 - **One password for everything** — one leaked site, and all your accounts fall like dominoes
 - **Written on paper or in a memo app** — lose the list, lose everything
-- **Let the browser remember** — gone when you switch browsers or computers; Chrome even syncs your passwords to Google's cloud
+- **Let the browser remember** — gone when you switch browsers or computers; Chrome syncs them to Google's cloud
+- **Hand your passwords to AI** — "help me organize my passwords" is a habit that's getting people hurt: everything you type into an AI tool gets read, stored and trained on
 - **A paid cloud password manager** — $30+/year, and your vault still lives on someone else's server (LastPass lost 25 million users' vaults in 2022)
 
-And what about your ideas? A passing thought, a shopping list, a half-formed plan — if you don't write it down in three seconds, it's gone. But opening a cloud note app means another login, another sync, another place your words get scanned.
+And your ideas? The AI era produces more of them than ever — prompts, drafts, half-formed thoughts. If you don't write one down in three seconds, it's gone. But opening a cloud note app means another login, another sync, another place your words get scanned.
 
 **InkNote solves both, with one app:**
 
 - **Passwords? Stop remembering them.** InkNote keeps them all — grouped, one-click copy, strong random generator. You memorize exactly one master password.
 - **Ideas? Write them down in three seconds.** Open, type, done. Auto-saved, tagged, searchable.
 
-And here's the part that matters: **none of it ever leaves your computer.** Everything is encrypted with AES-256-GCM. You don't need to trust us — you don't need to trust anyone.
+And here's the part that matters: **none of it ever leaves your computer.** Everything is encrypted with AES-256-GCM. In an era where your data is worth more than ever, it stays where it started — with you. You don't need to trust us. You don't need to trust anyone.
 
 ## Why InkNote?
 
