@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:;">
+  <title data-i18n="appName">灵感簿</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- 自定义标题栏（无边框窗口） -->
+  <header id="titlebar">
+    <div class="titlebar-brand">
+      <svg class="brand-mark" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="6.2" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M4.4 7 L6.2 8.8 L9.8 5.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span data-i18n="appName">灵感簿</span>
+    </div>
+    <div class="titlebar-controls">
+      <button id="toggle-lang" class="win-btn lang-btn" title="切换语言" data-i18n-title="switchLang" aria-label="切换语言"></button>
+      <button id="win-min" class="win-btn" title="最小化" data-i18n-title="winMin" aria-label="最小化">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 6.5 H9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="win-max" class="win-btn" title="最大化" data-i18n-title="winMax" aria-label="最大化">
+        <svg class="icon-max" width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1.5" y="1.5" width="8" height="8" stroke="currentColor" stroke-width="1.2"/></svg>
+        <svg class="icon-restore" width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1.5" y="3" width="6.5" height="6.5" stroke="currentColor" stroke-width="1.2"/><path d="M3.8 3 V1.5 H9.5 V7.2 H8" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+      <button id="win-close" class="win-btn win-close" title="关闭" data-i18n-title="winClose" aria-label="关闭">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 2 L9 9 M9 2 L2 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- 解锁 / 设置主密码视图 -->
+  <div id="view-lock" class="view">
+    <div class="lock-card">
+      <div class="lock-logo">
+        <svg width="34" height="34" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="6.2" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M4.4 7 L6.2 8.8 L9.8 5.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 id="lock-title">解锁 InkNote</h1>
+      <p id="lock-subtitle">输入主密码，继续使用</p>
+      <div id="lock-main">
+        <input id="lock-input" class="text-input lock-input" type="password" placeholder="主密码" data-i18n-ph="lockInputPh" autocomplete="off" spellcheck="false">
+        <input id="lock-confirm" class="text-input lock-input" type="password" placeholder="再次输入，确认主密码" data-i18n-ph="lockConfirmPh" autocomplete="off" spellcheck="false" style="display:none">
+        <div id="lock-hint" class="lock-hint" style="display:none" data-i18n="lockHint">主密码用于加密保护你的密码库，请勿遗忘 —— 它无法找回。</div>
+        <button id="lock-btn" class="btn-primary lock-btn">解锁</button>
+      </div>
+      <div id="security-setup" style="display:none">
+        <div class="sec-setup-hint" data-i18n="secSetupHint">密保问题（可选）——忘记主密码时可凭答案重置，数据不丢失</div>
+        <div id="sec-list"></div>
+        <button id="sec-add" class="text-btn sec-add">＋ 添加问题</button>
+      </div>
+      <div id="sec-reset" style="display:none">
+        <select id="sec-select" class="text-input sec-select"></select>
+        <input id="sec-answer" class="text-input" type="text" placeholder="答案" data-i18n-ph="secAnswerPh" autocomplete="off" spellcheck="false">
+        <input id="sec-new" class="text-input" type="password" placeholder="新主密码" data-i18n-ph="secNewPh" autocomplete="off" spellcheck="false">
+        <input id="sec-new-confirm" class="text-input" type="password" placeholder="确认新主密码" data-i18n-ph="secNewConfirmPh" autocomplete="off" spellcheck="false">
+        <button id="sec-reset-btn" class="btn-primary lock-btn" data-i18n="secResetBtn">重置密码</button>
+        <div id="sec-error" class="lock-error"></div>
+        <button id="sec-back" class="text-btn sec-back" data-i18n="secBack">← 返回解锁</button>
+      </div>
+      <div id="lock-error" class="lock-error"></div>
+      <div id="forgot-wrap" style="display:none">
+        <button id="forgot-btn" class="text-btn" data-i18n="forgotPassword">忘记密码？</button>
+      </div>
+      <button id="vault-reset" class="text-btn danger lock-reset" style="display:none" data-i18n="resetVault">重置密码库</button>
+      <p id="vault-reset-hint" class="lock-reset-hint" style="display:none" data-i18n="resetVaultHint"></p>
+      <div id="backup-import-wrap" style="display:none">
+        <button id="backup-import-lock" class="text-btn" data-i18n="backupImport">导入备份</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主视图 -->
+  <div id="view-main" class="view" style="display:none">
+    <aside id="sidebar">
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <circle cx="6.2" cy="6.2" r="4.2" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M9.4 9.4 L12 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        <input id="search-input" class="search-input" type="text" placeholder="搜索笔记…" spellcheck="false">
+      </div>
+      <nav id="main-nav">
+        <button class="nav-item active" data-view="notes" title="笔记" data-i18n-title="notes">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="2" y="1.8" width="12" height="12.4" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M4.8 5.2 H11.2 M4.8 8 H11.2 M4.8 10.8 H8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <span data-i18n="notes">笔记</span>
+        </button>
+        <button class="nav-item" data-view="vault" title="密码库" data-i18n-title="vault">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="2" y="7.2" width="12" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M5 7.2 V4.8 a3 3 0 0 1 6 0 V7.2" stroke="currentColor" stroke-width="1.3"/>
+            <circle cx="8" cy="10.7" r="1.2" fill="currentColor"/>
+          </svg>
+          <span data-i18n="vault">密码库</span>
+        </button>
+      </nav>
+      <div id="tag-cloud" class="tag-cloud" hidden>
+        <div class="tag-cloud-label" data-i18n="tags">标签</div>
+      </div>
+      <div class="sidebar-footer">
+        <button id="backup-export-btn" class="nav-item footer-btn" title="导出备份" data-i18n-title="backupExport">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 9.5 V2.5 M5.2 5 L8 2.2 L10.8 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 10 V12.3 C3 12.9 3.5 13.4 4.1 13.4 H11.9 C12.5 13.4 13 12.9 13 12.3 V10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <span data-i18n="backupExport">导出备份</span>
+        </button>
+        <button id="backup-import-btn" class="nav-item footer-btn" title="导入备份（合并到本机）" data-i18n-title="backupImport">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 2.5 V9.5 M5.2 7 L8 9.8 L10.8 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 10.8 V12.3 C3 12.9 3.5 13.4 4.1 13.4 H11.9 C12.5 13.4 13 12.9 13 12.3 V10.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <span data-i18n="backupImport">导入备份</span>
+        </button>
+        <button id="sec-manage-btn" class="nav-item footer-btn" title="管理密保问题" data-i18n-title="secManage">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.8 L13 3.6 V7.2 C13 10.6 11 13.2 8 14.2 C5 13.2 3 10.6 3 7.2 V3.6 Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            <path d="M8 5.2 V7.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="8" cy="9.6" r="0.9" fill="currentColor"/>
+          </svg>
+          <span data-i18n="secManage">密保问题</span>
+        </button>
+        <button id="lock-app" class="nav-item footer-btn" title="锁定应用" data-i18n-title="lock">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="3" y="7" width="10" height="6.5" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M5.5 7 V5.2 a2.5 2.5 0 0 1 5 0 V7" stroke="currentColor" stroke-width="1.3"/>
+          </svg>
+          <span data-i18n="lock">锁定</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- 笔记视图 -->
+    <section id="notes-view" class="content-view">
+      <div class="pane notes-list" id="notes-list">
+        <div class="pane-header">
+          <span class="pane-title" data-i18n="notes">笔记</span>
+          <button id="new-note" class="icon-btn" title="新建笔记" data-i18n-title="newNote" aria-label="新建笔记">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 3 V13 M3 8 H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="notes-list-body" id="notes-list-body"></div>
+      </div>
+      <div class="pane editor" id="notes-editor">
+        <div class="editor-empty" id="editor-empty">
+          <svg width="40" height="40" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+            <rect x="2" y="1.8" width="12" height="12.4" rx="1.5"/>
+            <path d="M4.8 5.2 H11.2 M4.8 8 H11.2 M4.8 10.8 H8.5"/>
+          </svg>
+          <p data-i18n="editorEmpty">从左侧选择一篇笔记，或点击「＋」新建</p>
+        </div>
+        <div class="editor-wrap" id="editor-wrap" style="display:none">
+          <div class="editor-toolbar">
+            <div class="seg">
+              <button class="seg-btn active" data-mode="edit" data-i18n="edit">编辑</button>
+              <button class="seg-btn" data-mode="preview" data-i18n="preview">预览</button>
+            </div>
+            <div class="editor-actions">
+              <span id="save-status" class="save-status"></span>
+              <button id="delete-note" class="text-btn danger" title="删除笔记" data-i18n-title="deleteNoteTitle" data-i18n="delete">删除</button>
+            </div>
+          </div>
+          <input id="note-title" class="note-title" type="text" placeholder="无标题" data-i18n-ph="untitled" spellcheck="false">
+          <div id="note-tags" class="note-tags">
+            <input id="tag-input" class="tag-input" type="text" placeholder="添加标签，回车确认" data-i18n-ph="tagInputPh" spellcheck="false">
+          </div>
+          <div class="editor-body">
+            <textarea id="note-content" class="note-content" placeholder="写点什么…（支持 Markdown）" data-i18n-ph="contentPh" spellcheck="false"></textarea>
+            <div id="note-preview" class="markdown-body" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 密码库视图 -->
+    <section id="vault-view" class="content-view" style="display:none">
+      <div class="pane vault-groups" id="vault-groups">
+        <div class="pane-header">
+          <span class="pane-title" data-i18n="groups">分组</span>
+        </div>
+        <div class="vault-groups-body" id="vault-groups-body"></div>
+      </div>
+      <div class="pane vault-list" id="vault-list">
+        <div class="pane-header">
+          <span class="pane-title" id="vault-list-title">全部条目</span>
+          <button id="new-entry" class="icon-btn" title="新建条目" data-i18n-title="newEntry" aria-label="新建条目">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 3 V13 M3 8 H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="vault-list-body" id="vault-list-body"></div>
+      </div>
+      <div class="pane vault-detail" id="vault-detail">
+        <div class="editor-empty" id="vault-empty">
+          <svg width="40" height="40" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+            <rect x="2" y="7.2" width="12" height="7" rx="1.5"/>
+            <path d="M5 7.2 V4.8 a3 3 0 0 1 6 0 V7.2"/>
+          </svg>
+          <p data-i18n="vaultEmpty">从左侧选择一个条目，或新建一个</p>
+        </div>
+        <div class="detail-wrap" id="detail-wrap" style="display:none">
+          <div class="editor-toolbar">
+            <span class="detail-status"><span id="vault-save-status" class="save-status"></span></span>
+            <button id="delete-entry" class="text-btn danger" title="删除条目" data-i18n-title="deleteEntryTitle" data-i18n="delete">删除</button>
+          </div>
+          <input id="entry-name" class="note-title" type="text" placeholder="名称" data-i18n-ph="fieldName" spellcheck="false">
+          <div class="field">
+            <label data-i18n="fieldGroup">分组</label>
+            <div class="field-row">
+              <input id="entry-group" class="text-input" type="text" placeholder="默认" data-i18n-ph="defaultGroup" spellcheck="false" list="group-options">
+              <datalist id="group-options"></datalist>
+            </div>
+          </div>
+          <div class="field">
+            <label data-i18n="fieldUsername">用户名 / 账号</label>
+            <div class="field-row">
+              <input id="entry-username" class="text-input" type="text" spellcheck="false">
+              <button class="copy-btn" data-copy="username" title="复制账号" data-i18n-title="copyUsername" aria-label="复制账号">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M11 5 V3.5 a1.5 1.5 0 0 0 -1.5 -1.5 H4 a1.5 1.5 0 0 0 -1.5 1.5 V10 a1.5 1.5 0 0 0 1.5 1.5 H5" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label data-i18n="fieldPassword">密码</label>
+            <div class="field-row">
+              <input id="entry-password" class="text-input" type="password" spellcheck="false" autocomplete="off">
+              <button class="copy-btn" data-copy="password" title="复制密码" data-i18n-title="copyPassword" aria-label="复制密码">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M11 5 V3.5 a1.5 1.5 0 0 0 -1.5 -1.5 H4 a1.5 1.5 0 0 0 -1.5 1.5 V10 a1.5 1.5 0 0 0 1.5 1.5 H5" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+              <button id="toggle-password" class="copy-btn" title="显示 / 隐藏密码" data-i18n-title="toggleVisibility" aria-label="显示或隐藏密码">
+                <svg id="icon-eye" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1.8 8 C3.5 4.8 5.6 3.2 8 3.2 c2.4 0 4.5 1.6 6.2 4.8 C12.5 11.2 10.4 12.8 8 12.8 c-2.4 0 -4.5 -1.6 -6.2 -4.8 Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="1.8" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+              <button id="gen-password" class="copy-btn" title="生成强密码" data-i18n-title="genPassword" aria-label="生成强密码">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8 a5 5 0 1 1 -1.8 -3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M13 1.8 V4.4 H10.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label data-i18n="fieldUrl">网址</label>
+            <input id="entry-url" class="text-input" type="text" placeholder="https://…" spellcheck="false">
+          </div>
+          <div class="field">
+            <label data-i18n="fieldNote">备注</label>
+            <textarea id="entry-note" class="text-input entry-note" rows="3" spellcheck="false"></textarea>
+          </div>
+          <div class="field-meta" id="entry-meta"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 通用确认弹窗 -->
+  <div id="modal-mask" class="modal-mask" style="display:none">
+    <div class="modal">
+      <h3 id="modal-title"></h3>
+      <p id="modal-text"></p>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn-ghost" data-i18n="cancel">取消</button>
+        <button id="modal-ok" class="btn-primary"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 密保问题管理（解锁后） -->
+  <div id="sec-manage-mask" class="modal-mask" style="display:none">
+    <div class="modal sec-manage">
+      <h3 data-i18n="secManageTitle">管理密保问题</h3>
+      <p class="sec-manage-sub" data-i18n="secManageSub">忘记主密码时，答对任一问题即可重置主密码；最多保留 3 个。</p>
+      <div id="sec-manage-list"></div>
+      <button id="sec-manage-add" class="text-btn sec-add" data-i18n="secAdd">＋ 添加问题</button>
+      <input id="sec-manage-pw" class="text-input" type="password" placeholder="主密码" data-i18n-ph="lockInputPh" autocomplete="off" spellcheck="false">
+      <div id="sec-manage-error" class="lock-error"></div>
+      <div class="modal-actions">
+        <button id="sec-manage-cancel" class="btn-ghost" data-i18n="cancel">取消</button>
+        <button id="sec-manage-save" class="btn-primary" data-i18n="save">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通用密码确认弹窗（导出/导入备份） -->
+  <div id="prompt-mask" class="modal-mask" style="display:none">
+    <div class="modal prompt-modal">
+      <h3 id="prompt-title"></h3>
+      <p id="prompt-sub" class="sec-manage-sub"></p>
+      <input id="prompt-input" class="text-input" type="password" placeholder="主密码" data-i18n-ph="lockInputPh" autocomplete="off" spellcheck="false">
+      <div id="prompt-error" class="lock-error"></div>
+      <div class="modal-actions">
+        <button id="prompt-cancel" class="btn-ghost" data-i18n="cancel">取消</button>
+        <button id="prompt-ok" class="btn-primary" data-i18n="confirm">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 轻提示 -->
+  <div id="toast" class="toast"></div>
+
+  <script src="../node_modules/marked/lib/marked.umd.js"></script>
+  <script src="../node_modules/dompurify/dist/purify.js"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

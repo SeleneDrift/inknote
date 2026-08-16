@@ -1,0 +1,66 @@
+{
+  "name": "inknote",
+  "version": "1.0.0",
+  "description": "本地笔记与密码管理",
+  "main": "main.js",
+  "scripts": {
+    "start": "node scripts/start.js",
+    "icon": "node scripts/make-icon.js",
+    "dist": "electron-builder --win",
+    "dist:store": "electron-builder --win appx",
+    "verify": "node scripts/verify.js"
+  },
+  "keywords": [],
+  "author": "zijin",
+  "license": "ISC",
+  "type": "commonjs",
+  "productName": "InkNote",
+  "build": {
+    "appId": "com.zijin.inknote",
+    "productName": "InkNote",
+    "copyright": "Copyright © 2026 zijin",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "appx": {
+      "identityName": "InkNote",
+      "applicationId": "InkNote",
+      "publisherDisplayName": "zijin",
+      "backgroundColor": "#2f81f7",
+      "minVersion": "10.0.17763.0",
+      "maxVersionTested": "10.0.26100.0",
+      "artifactName": "InkNote-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "multiLanguageInstaller": true,
+      "artifactName": "InkNote-${version}-setup.${ext}",
+      "shortcutName": "InkNote"
+    },
+    "portable": {
+      "artifactName": "InkNote-${version}-portable.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "dompurify": "^3.4.13",
+    "marked": "^18.0.9"
+  }
+}

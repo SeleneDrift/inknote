@@ -1,0 +1,26 @@
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('api', {
+  init: () => ipcRenderer.invoke('app:init'),
+  vaultSetup: (mp, security) => ipcRenderer.invoke('vault:setup', mp, security),
+  vaultUnlock: (mp) => ipcRenderer.invoke('vault:unlock', mp),
+  resetPassword: (idx, answer, newPassword) => ipcRenderer.invoke('vault:resetPassword', idx, answer, newPassword),
+  securityUpdate: (mp, keepIndices, add) => ipcRenderer.invoke('security:update', mp, keepIndices, add),
+  backupExport: (mp, filePath) => ipcRenderer.invoke('backup:export', mp, filePath),
+  backupPick: (filePath) => ipcRenderer.invoke('backup:pick', filePath),
+  backupRestore: (mp, filePath) => ipcRenderer.invoke('backup:restore', mp, filePath),
+  backupMerge: (mp, filePath) => ipcRenderer.invoke('backup:merge', mp, filePath),
+  vaultLock: () => ipcRenderer.invoke('vault:lock'),
+  vaultReset: () => ipcRenderer.invoke('vault:reset'),
+  vaultSave: (entries) => ipcRenderer.invoke('vault:save', entries),
+  notesLoad: () => ipcRenderer.invoke('notes:load'),
+  notesSave: (notes) => ipcRenderer.invoke('notes:save', notes),
+  settingsLoad: () => ipcRenderer.invoke('settings:load'),
+  settingsSave: (settings) => ipcRenderer.invoke('settings:save', settings),
+  copy: (text, sensitive) => ipcRenderer.invoke('clipboard:write', text, sensitive),
+  openLink: (url) => ipcRenderer.invoke('link:open', url),
+  minimize: () => ipcRenderer.invoke('win:minimize'),
+  maximize: () => ipcRenderer.invoke('win:maximize'),
+  close: () => ipcRenderer.invoke('win:close'),
+  onMaximizeChange: (cb) => ipcRenderer.on('win:maximized', (_e, maximized) => cb(maximized)),
+});
