@@ -39,6 +39,8 @@ And your ideas? The AI era produces more of them than ever — prompts, drafts, 
 
 And here's the part that matters: **none of it ever leaves your computer.** Everything is encrypted with AES-256-GCM. In an era where your data is worth more than ever, it stays where it started — with you. You don't need to trust us. You don't need to trust anyone.
 
+**And it's open source.** The entire app is a few thousand lines of plain JavaScript with minimal dependencies — small enough for anyone (or any AI tool) to read end to end, audit every crypto call, and build on it. Don't like something? Change it. Want a feature we haven't built? Fork it — in the AI era, you don't have to wait for us.
+
 ## Why InkNote?
 
 - 🔒 **Encrypted by design** — AES-256-GCM keys exist only in memory. Even your backup file is unreadable without your master password.
@@ -48,6 +50,7 @@ And here's the part that matters: **none of it ever leaves your computer.** Ever
 - 🛡 **Never locked out** — set security questions and recover a forgotten master password without losing data.
 - ♻️ **Backup & migrate freely** — one encrypted file exports everything; import it on any device, master password carries over.
 - 🌏 **English & 中文 built-in** — switch anytime from the title bar, preference is remembered.
+- 🧩 **Yours to extend** — fully open source, a few thousand lines of dependency-light JS. Audit it, fork it, or have an AI tool add features for you.
 
 ## Screenshots
 
