@@ -11,14 +11,14 @@
     "verify": "node scripts/verify.js"
   },
   "keywords": [],
-  "author": "zijin",
+  "author": "SeleneDrift",
   "license": "ISC",
   "type": "commonjs",
   "productName": "InkNote",
   "build": {
-    "appId": "com.zijin.inknote",
+    "appId": "com.selenedrift.inknote",
     "productName": "InkNote",
-    "copyright": "Copyright © 2026 zijin",
+    "copyright": "Copyright © 2026 SeleneDrift",
     "directories": {
       "output": "release"
     },
@@ -38,7 +38,7 @@
     "appx": {
       "identityName": "InkNote",
       "applicationId": "InkNote",
-      "publisherDisplayName": "zijin",
+      "publisherDisplayName": "SeleneDrift",
       "backgroundColor": "#2f81f7",
       "minVersion": "10.0.17763.0",
       "maxVersionTested": "10.0.26100.0",
