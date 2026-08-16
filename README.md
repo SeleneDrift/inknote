@@ -18,10 +18,30 @@
 >
 > A local-first notes & password manager for Windows. Every byte you type is encrypted on your device with **AES-256-GCM** — no account, no cloud, no tracking.
 
+## What if you never had to remember another password?
+
+Count your accounts for a second: email, shopping, banking, social, GitHub... Most people have dozens. And most people can genuinely remember only a few strong passwords.
+
+So everyone compromises — and every compromise has a price:
+
+- **One password for everything** — one leaked site, and all your accounts fall like dominoes
+- **Written on paper or in a memo app** — lose the list, lose everything
+- **Let the browser remember** — gone when you switch browsers or computers; Chrome even syncs your passwords to Google's cloud
+- **A paid cloud password manager** — $30+/year, and your vault still lives on someone else's server (LastPass lost 25 million users' vaults in 2022)
+
+And what about your ideas? A passing thought, a shopping list, a half-formed plan — if you don't write it down in three seconds, it's gone. But opening a cloud note app means another login, another sync, another place your words get scanned.
+
+**InkNote solves both, with one app:**
+
+- **Passwords? Stop remembering them.** InkNote keeps them all — grouped, one-click copy, strong random generator. You memorize exactly one master password.
+- **Ideas? Write them down in three seconds.** Open, type, done. Auto-saved, tagged, searchable.
+
+And here's the part that matters: **none of it ever leaves your computer.** Everything is encrypted with AES-256-GCM. You don't need to trust us — you don't need to trust anyone.
+
 ## Why InkNote?
 
 - 🔒 **Encrypted by design** — AES-256-GCM keys exist only in memory. Even your backup file is unreadable without your master password.
-- 💾 **100% local & offline** — everything lives on your disk. No account, no server, no telemetry, nothing ever leaves your machine.
+- 💾 **100% local & offline** — no account, no server, no telemetry. Nothing ever leaves your machine, and it works perfectly with no internet.
 - 📝 **Notes that feel natural** — Markdown editing with live preview, tags, full-text search, and 400ms-debounced auto-save.
 - 🔑 **A password manager in the same app** — groups, one-click copy, show/hide, and a strong random password generator.
 - 🛡 **Never locked out** — set security questions and recover a forgotten master password without losing data.
@@ -51,6 +71,31 @@ npm run dist     # build Windows installers → release/
 ```
 
 > ⚠️ Release binaries are unsigned — SmartScreen may warn on first run (More info → Run anyway).
+
+## For developers
+
+**Tech stack:** Electron 43 · vanilla JS (no framework) · marked + DOMPurify · Node crypto (AES-256-GCM)
+
+**Architecture highlights:**
+
+- Keys live only in the main process memory — the renderer never sees them
+- Strict CSP: no remote images, scripts or fonts; notes can't phone home
+- Atomic writes (temp file + fsync + rename) — no corrupted files on crash
+- Minimal dependencies, fully auditable source
+
+**Build & test:**
+
+```bash
+npm install
+npm start          # dev run
+npm run dist       # NSIS installer + portable
+npm run dist:store # Windows .appx (Store submission)
+npm run verify     # end-to-end regression (needs debug port)
+```
+
+**Project layout:** `main.js` (main process: crypto & persistence) · `preload.js` (context bridge) · `renderer/` (UI) · `scripts/` (build, icon, e2e)
+
+Contributions welcome — fork, fix, PR. Feature ideas live in [Issues](https://github.com/SeleneDrift/inknote/issues).
 
 ## How it protects you
 
