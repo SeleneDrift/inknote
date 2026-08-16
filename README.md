@@ -2,6 +2,14 @@
 
 本地笔记 + 密码管理桌面应用（Electron，数据全部加密存储在本机）。
 
+## 下载
+
+从 [GitHub Releases](https://github.com/SeleneDrift/inknote/releases) 下载：
+
+- `InkNote-<版本>-setup.exe` —— 安装版
+- `InkNote-<版本>-portable.exe` —— 免安装便携版
+- `InkNote-<版本>.appx` —— Windows Store 包（未签名，仅限侧载）
+
 ## 使用
 
 ```bash
